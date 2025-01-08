@@ -1,5 +1,4 @@
 package emilbe;
-
 import java.util.*;
 
 public class Oblig_01 {
@@ -37,7 +36,7 @@ public class Oblig_01 {
         for (int i = middle; i < S1.length(); i++) {
             stack.push(S1.charAt(i));
         }
-
+        /* TESTING */
         //System.out.println("Stack1: " + stack);
         //System.out.println("Queue1: " + queue);
 
@@ -69,6 +68,7 @@ public class Oblig_01 {
             }
         }
 
+        /* TESTING */
         //System.out.println("Stack2: " + stack);
         //System.out.println("Queue2: " + queue);
         
@@ -77,7 +77,6 @@ public class Oblig_01 {
         while (!queue.isEmpty()) {
             T.append(queue.remove());
         }
-
         while (!stack.isEmpty()) {
             T.append(stack.pop());
         }
