@@ -25,7 +25,7 @@ public class Oblig_01 {
         String S1 = ROT13(S);
 
         // Opprett en kø og en stack
-        Queue<Character> queue = new LinkedList<>();
+        Queue<Character> queue = new LinkedList<>(); 
         Stack<Character> stack = new Stack<>();
 
         // Enque de n/2 første tegnene i S1
@@ -37,6 +37,10 @@ public class Oblig_01 {
         for (int i = middle; i < S1.length(); i++) {
             stack.push(S1.charAt(i));
         }
+
+        //System.out.println("Stack1: " + stack);
+        //System.out.println("Queue1: " + queue);
+
         // Bygg den krypterte strengen T med tegnene fra stacken og køen
         StringBuilder T = new StringBuilder();
         while (!stack.isEmpty() || !queue.isEmpty()) {
@@ -50,7 +54,6 @@ public class Oblig_01 {
         return T.toString(); 
     }
 
-
     public static String dekrypter(String S) {
         // Opprett en kø og en stack
         Queue<Character> queue = new LinkedList<>();
@@ -60,20 +63,23 @@ public class Oblig_01 {
         for (int i = 0; i < S.length(); i++) {
             if (i % 2 == 0) {
                 stack.push(S.charAt(i));
-            } else {
+            } 
+            else {
                 queue.add(S.charAt(i));
             }
         }
-        // 
+
+        //System.out.println("Stack2: " + stack);
+        //System.out.println("Queue2: " + queue);
         
         // Bygg strengen T i riktig rekkefølge
         StringBuilder T = new StringBuilder();
-        while (!stack.isEmpty()) {
-            T.append(stack.pop());
+        while (!queue.isEmpty()) {
+            T.append(queue.remove());
         }
 
-        while (!queue.isEmpty()) {
-            T.insert(0, queue.remove());
+        while (!stack.isEmpty()) {
+            T.append(stack.pop());
         }
 
         return ROT13(T.toString());
@@ -85,12 +91,12 @@ public class Oblig_01 {
         String text = in.nextLine();
         in.close();
 
-        // Encrypt the text
-        System.out.print("Encrypted text: ");
-        System.out.println(krypter(text));
+        // Krypter teksten
+        String encrypted = krypter(text);
+        System.out.println("Encrypted text: " + encrypted);
 
-        // Decrypt the text
-        System.out.print("Decrypted text: ");
-        System.out.println(dekrypter(krypter(text)));
+        // Dekrypter teksten
+        String decrypted = dekrypter(encrypted);
+        System.out.println("Decrypted text: " + decrypted);
     }
 }
