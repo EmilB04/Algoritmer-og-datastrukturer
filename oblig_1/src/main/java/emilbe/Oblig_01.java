@@ -37,7 +37,7 @@ public class Oblig_01 {
         for (int i = middle; i < S1.length(); i++) {
             stack.push(S1.charAt(i));
         }
-        // Bygg den krypterte strengen T
+        // Bygg den krypterte strengen T med tegnene fra stacken og køen
         StringBuilder T = new StringBuilder();
         while (!stack.isEmpty() || !queue.isEmpty()) {
             if (!stack.isEmpty()) {
@@ -49,14 +49,34 @@ public class Oblig_01 {
         }
         return T.toString(); 
     }
+
+
     public static String dekrypter(String S) {
         // Opprett en kø og en stack
         Queue<Character> queue = new LinkedList<>();
         Stack<Character> stack = new Stack<>();
 
-    
-        return S;
-        // return ROT13(T.toString());
+        // Del strengen S opp i stack og kø
+        for (int i = 0; i < S.length(); i++) {
+            if (i % 2 == 0) {
+                stack.push(S.charAt(i));
+            } else {
+                queue.add(S.charAt(i));
+            }
+        }
+        // 
+        
+        // Bygg strengen T i riktig rekkefølge
+        StringBuilder T = new StringBuilder();
+        while (!stack.isEmpty()) {
+            T.append(stack.pop());
+        }
+
+        while (!queue.isEmpty()) {
+            T.insert(0, queue.remove());
+        }
+
+        return ROT13(T.toString());
     }
 
     public static void main(String[] args) {
@@ -66,8 +86,11 @@ public class Oblig_01 {
         in.close();
 
         // Encrypt the text
+        System.out.print("Encrypted text: ");
         System.out.println(krypter(text));
 
         // Decrypt the text
+        System.out.print("Decrypted text: ");
+        System.out.println(dekrypter(krypter(text)));
     }
 }
