@@ -23,11 +23,12 @@ public class Oblig_02 {
     }
 
     private static void exponential(long n) {
-        long squared = (long) Math.pow(2, n);
-        for (long i = 0; i < squared; i++) {
+        java.math.BigInteger squared = java.math.BigInteger.valueOf(2).pow((int) n);
+        for (java.math.BigInteger i = java.math.BigInteger.ZERO; i.compareTo(squared) < 0; i = i.add(java.math.BigInteger.ONE)) {
             // Do nothing
         }
     }
+
     private static void combinatorical(long n) {
         long nFaculty = 1;
         for (long i = 1; i <= n; i++) {
@@ -68,6 +69,6 @@ public class Oblig_02 {
     }
     // Superlineær algoritme 500_050_000 = 10 sekunder
     // Kubisk 2500 = 10 sekunder
-    // Eksponentiell --
+    // Eksponentiell 31 = 14 sekunder
     // Kombinatorisk 15_500_000_000 (15 milliarder) = 10 sekunder
 }
