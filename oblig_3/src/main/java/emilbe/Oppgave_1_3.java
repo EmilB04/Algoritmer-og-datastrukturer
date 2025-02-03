@@ -37,47 +37,22 @@ public class Oppgave_1_3 {
         }
     }
 
-    // Oppgave 5 - Ikke-rekursiv metode - Pascal's trekant
-    public static long C_interativ(int n, int m) {
-        long[][] pascal = new long[n + 1][n + 1];
-
-        for (int i = 0; i <= n; i++) {
-            pascal[i][0] = 1;
-            pascal[i][i] = 1;
-        }
-
-        for (int i = 2; i <= n; i++) {
-            for (int j = 1; j < i; j++) {
-                pascal[i][j] = pascal[i - 1][j - 1] + pascal[i - 1][j];
-            }
-        }
-
-        return pascal[n][m];
-    }
-
 
     public static void main(String[] args) {
-        // Oppgave 1
         System.out.println("Oppgave 1");
         System.out.println(C_rekursiv(5, 3));
 
-        // Oppgave 3
         System.out.println("Oppgave 3");
         printBinomialCoefficients();
 
-        // Oppgave 4 //
+        // Oppgave 4 - bare for å teste//
         System.out.println("Oppgave 4 started med n = 30 om 4 sekunder");
         try {
             Thread.sleep(4000);
-        } catch (InterruptedException e) {
+        } 
+        catch (InterruptedException e) {
             e.printStackTrace();
         }
         printBinomialCoefficients(30);
-
-        // Oppgave 5
-        System.out.println("Oppgave 5");
-        System.out.println(C_interativ(5, 3));
-
-        //TODO: Oppgave 4 6 og 7
     }
 }
