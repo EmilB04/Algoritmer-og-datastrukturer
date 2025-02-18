@@ -1,5 +1,8 @@
 package emilbe;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 class Trenode {
     int verdi;
     Trenode venstre, hoyre;
@@ -18,38 +21,55 @@ class Trenode {
 public class Oblig_05 {
     // Oppgave 1
     static void settSum(Trenode rot) {
-        if (rot == null)
+        if (rot == null) {
             return;
-        rot.sum = rot.verdi + (rot.venstre != null ? rot.venstre.sum : 0) + (rot.hoyre != null ? rot.hoyre.sum : 0);
+        }
         settSum(rot.venstre);
         settSum(rot.hoyre);
+        int venstreSum = (rot.venstre != null) ? rot.venstre.sum : 0;
+        int hoyreSum = (rot.hoyre != null) ? rot.hoyre.sum : 0;
+        rot.sum = rot.verdi + venstreSum + hoyreSum;
     }
 
     // Oppgave 2
     static void settForelder(Trenode rot) {
-        if (rot == null)
+        if (rot == null) {
             return;
-        if (rot.venstre != null)
+        }
+        if (rot.venstre != null) {
             rot.venstre.forelder = rot;
-        if (rot.hoyre != null)
+            settForelder(rot.venstre);
+        }
+        if (rot.hoyre != null) {
             rot.hoyre.forelder = rot;
-        settForelder(rot.venstre);
-        settForelder(rot.hoyre);
+            settForelder(rot.hoyre);
+        }
     }
 
     // Oppgave 3
     static void skrivUt(Trenode rot) {
-        if (rot == null)
+        if (rot == null) {
             return;
-        skrivUt(rot.venstre);
-        System.out.println("Verdi: " + rot.verdi + ", Sum: " + rot.sum + ", Forelder: "
-                + (rot.forelder != null ? rot.forelder.verdi : "null"));
-        skrivUt(rot.hoyre);
+        }
+        Queue<Trenode> queue = new LinkedList<>();
+        queue.add(rot);
+        while (!queue.isEmpty()) {
+            Trenode current = queue.poll();
+            System.out.printf("%-6d %-6d %-6s%n", current.verdi, current.sum, (current.forelder != null ? current.forelder.verdi : "*"));
+            if (current.venstre != null) {
+                queue.add(current.venstre);
+            }
+            if (current.hoyre != null) {
+                queue.add(current.hoyre);
+            }
+        }
     }
 
     // Testprogram
     public static void main(String args[]) {
-        Trenode rot = new Trenode(8,
+        System.out.printf("%-6s %-6s %-6s%n", "Verdi", "Sum", "Forelder");
+        Trenode rot = 
+            new Trenode(8,
                 new Trenode(4,
                         new Trenode(2, null, null),
                         new Trenode(6, null, null)),
