@@ -59,7 +59,29 @@ public class WordBST {
             n++;
         }
         else {
-            
+            WordNode node = rot;
+            while (true) {
+                if (ord.compareTo(node.nodeOrd) < 0) {
+                    if (node.venstre == null) {
+                        node.venstre = new WordNode(ord);
+                        n++;
+                        return;
+                    }
+                    node = node.venstre;
+                }
+                else if (ord.compareTo(node.nodeOrd) > 0) {
+                    if (node.hoyre == null) {
+                        node.hoyre = new WordNode(ord);
+                        n++;
+                        return;
+                    }
+                    node = node.hoyre;
+                }
+                else {
+                    node.antall++;
+                    return;
+                }
+            }
         }
     }
 
