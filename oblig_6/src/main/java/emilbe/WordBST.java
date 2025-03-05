@@ -57,8 +57,7 @@ public class WordBST {
         if (rot == null) {
             rot = new WordNode(ord);
             n++;
-        }
-        else {
+        } else {
             WordNode node = rot;
             while (true) {
                 if (ord.compareTo(node.nodeOrd) < 0) {
@@ -68,7 +67,7 @@ public class WordBST {
                         return;
                     }
                     node = node.venstre;
-                }
+                } 
                 else if (ord.compareTo(node.nodeOrd) > 0) {
                     if (node.hoyre == null) {
                         node.hoyre = new WordNode(ord);
@@ -76,7 +75,7 @@ public class WordBST {
                         return;
                     }
                     node = node.hoyre;
-                }
+                } 
                 else {
                     node.antall++;
                     return;
@@ -87,8 +86,29 @@ public class WordBST {
 
     // search(): Søk etter et ord. Skriv ut ordet og ordfrekvensen
     // hvis det finnes i søketreet.
+    /*
+     * i klassen WordBST. Metoden skal lete etter ordet/strengen ord i søketreet.
+     * Hvis ordet finnes i treet skal metoden skrive det ut sammen med antall
+     * forekomster av ordet. Hvis ordet ikke finnes, skal det ikke gjøres noen
+     * utskrift. Metoden search() skal ikke være rekursiv, og den skal være så
+     * effektiv som mulig.
+     */
+
     public void search(String ord) {
-        /*** Skal programmeres i oppgave 3 ***/
+        WordNode node = rot;
+        while (node != null) {
+            if (ord.compareTo(node.nodeOrd) < 0) {
+                node = node.venstre;
+            } 
+            else if (ord.compareTo(node.nodeOrd) > 0) {
+                node = node.hoyre;
+            } 
+            else {
+                node.print();
+                return;
+            }
+        }
+        System.out.println("Word not found");
     }
 
     // print(): Alfabetisk utskrift av hele søketreet. Kaller en
@@ -98,8 +118,15 @@ public class WordBST {
     }
 
     // print(): Rekursiv utskrift av hele søketreet med rot i "rot"
+    /*
+     * Metoden skal skrive ut alle ordene i søketreet med rot i noden rot, i alfabetisk rekkefølge.
+     */
     private void print(WordNode rot) {
-        /*** Skal programmeres i oppgave 4 ***/
+        if (rot != null) {
+            print(rot.venstre);
+            rot.print();
+            print(rot.hoyre);
+        }
     }
 
     // main(): Testprogram
@@ -108,7 +135,6 @@ public class WordBST {
         Scanner scan = new Scanner(System.in);
         System.out.print("File? ");
         String fileName = scan.next();
-        scan.close();
 
         // Oppretter ordleser og tomt søketre
         WordReader wR = new WordReader(fileName);
