@@ -1,6 +1,5 @@
 package emilbe;
 
-import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
 
@@ -37,11 +36,11 @@ public class WordBST {
         }
     }
 
-    // print(): Alfabetisk utskrift av hele søketreet
+    // print(): Skriv ut alle ord og ordfrekvenser i treet
     public void print() {
-        for (Map.Entry<String, Integer> entry : wordMap.entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue());
-        }
+        wordMap.forEach((key, value) -> {
+            System.out.println(key + ": " + value);
+        });
     }
 
 
@@ -81,5 +80,6 @@ public class WordBST {
                 wBST.print();
             }
         }
+        scan.close();
     }
 }
