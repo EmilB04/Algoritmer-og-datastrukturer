@@ -1,7 +1,5 @@
 package emilbe;
 
-import java.io.*;
-
 public class OppgaveA {
     // tell(): Returnerer antall forekomster av "verdi" i det
     // heap-ordnede treet med rot i "rot".
