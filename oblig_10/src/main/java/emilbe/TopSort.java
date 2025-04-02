@@ -49,7 +49,52 @@ public class TopSort {
 
     // findAndPrint(): Finner og skriver ut en topologisk sortering
     public void findAndPrint() {
-        /*** Skal programmeres i oblig. 10 ***/
+        int[] inngrad = new int[n];
+        List<Integer> sortert = new ArrayList<>();
+        Queue<Integer> ko = new LinkedList<>();
+        
+        // Beregn inngraden til alle noder
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (nabo[j][i]) {
+                    inngrad[i]++;
+                }
+            }
+        }
+        
+        // Legg til alle noder med inngrad 0 i køen
+        for (int i = 0; i < n; i++) {
+            if (inngrad[i] == 0) {
+                ko.add(i);
+            }
+        }
+        
+        // Kjør algoritmen
+        while (!ko.isEmpty()) {
+            int node = ko.poll();
+            sortert.add(node);
+            
+            for (int i = 0; i < n; i++) {
+                if (nabo[node][i]) {
+                    inngrad[i]--;
+                    if (inngrad[i] == 0) {
+                        ko.add(i);
+                    }
+                }
+            }
+        }
+        
+        // Sjekk om vi har en syklisk graf (som ikke kan sorteres topologisk)
+        if (sortert.size() != n) {
+            System.out.println("Grafen inneholder en syklus og kan ikke sorteres topologisk.");
+            return;
+        }
+        
+        // Skriv ut topologisk sortering
+        for (int i = 0; i < sortert.size(); i++) {
+            System.out.print(data[sortert.get(i)] + " ");
+        }
+        System.out.println();
     }
 
     // main(); Testprogram
