@@ -1,7 +1,10 @@
 package emilbe;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Scanner;
 
 // Topologisk sortering
 
@@ -25,10 +28,12 @@ public class TopSort {
             n = in.nextInt();
             // Oppretter nabomatrisen
             nabo = new boolean[n][n];
-            // Setter hele nabomatrisen, untatt diagonalen, til false
-            for (int i = 0; i < n; i++)
-                for (int j = 0; j < n; j++)
+            // Setter hele nabomatrisen, unntatt diagonalen, til false
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
                     nabo[i][j] = (i == j) ? true : false;
+                }
+            }
             // Oppretter arrayen med data (string) for hver node
             data = new String[n];
             // For hver node: Les data og alle naboene noden har
@@ -49,52 +54,48 @@ public class TopSort {
 
     // findAndPrint(): Finner og skriver ut en topologisk sortering
     public void findAndPrint() {
-        int[] inngrad = new int[n];
-        List<Integer> sortert = new ArrayList<>();
-        Queue<Integer> ko = new LinkedList<>();
-        
-        // Beregn inngraden til alle noder
+        // Steg 1: Beregn inngraden til alle noder
+        int[] inDegree = new int[n];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (nabo[j][i]) {
-                    inngrad[i]++;
+                if (nabo[i][j] && i != j) { // Ikke tell selv-løkker
+                    inDegree[j]++;
                 }
             }
         }
-        
-        // Legg til alle noder med inngrad 0 i køen
+
+        // Steg 2: Legg alle noder med inngrad 0 i en kø
+        LinkedList<Integer> queue = new LinkedList<>();
         for (int i = 0; i < n; i++) {
-            if (inngrad[i] == 0) {
-                ko.add(i);
+            if (inDegree[i] == 0) {
+                queue.add(i);
             }
         }
-        
-        // Kjør algoritmen
-        while (!ko.isEmpty()) {
-            int node = ko.poll();
-            sortert.add(node);
-            
+
+        // Steg 3: Utfør topologisk sortering
+        List<String> result = new ArrayList<>();
+        while (!queue.isEmpty()) {
+            int current = queue.poll(); // Ta ut en node fra køen
+            result.add(data[current]); // Legg nodens data til resultatet
+
+            // Reduser inngraden til alle naboene
             for (int i = 0; i < n; i++) {
-                if (nabo[node][i]) {
-                    inngrad[i]--;
-                    if (inngrad[i] == 0) {
-                        ko.add(i);
+                if (nabo[current][i] && current != i) { // Ikke reduser for selv-løkker
+                    inDegree[i]--;
+                    if (inDegree[i] == 0) {
+                        queue.add(i); // Legg til i køen hvis inngraden blir 0
                     }
                 }
             }
         }
-        
-        // Sjekk om vi har en syklisk graf (som ikke kan sorteres topologisk)
-        if (sortert.size() != n) {
-            System.out.println("Grafen inneholder en syklus og kan ikke sorteres topologisk.");
-            return;
+
+        // Sjekk om det finnes en syklus
+        if (result.size() < n) {
+            System.out.println("Error: Grafen inneholder en syklus og kan ikke sorteres topologisk.");
+        } else {
+            // Skriv ut resultatet
+            System.out.println(String.join(" ", result));
         }
-        
-        // Skriv ut topologisk sortering
-        for (int i = 0; i < sortert.size(); i++) {
-            System.out.print(data[sortert.get(i)] + " ");
-        }
-        System.out.println();
     }
 
     // main(); Testprogram
